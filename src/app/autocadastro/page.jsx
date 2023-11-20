@@ -3,10 +3,11 @@ import { useState } from "react"
 import Steps from './components/steps/page'
 import Etapa1 from './components/etapas/etapa1'
 import Etapa2 from './components/etapas/etapa2'
+import Etapa3 from "./components/etapas/etapa3"
 
 export default function Autocadastro() {
 
-    const [etapa, setEtapa] = useState(1)
+    const [etapa, setEtapa] = useState(3)
 
     const atualizarEtapa = (novoValor) => {
         setEtapa(novoValor);
@@ -26,6 +27,7 @@ export default function Autocadastro() {
                 break 
 
             case 3:
+                retorno = <Etapa3 etapa={etapa} atualizarEtapa={atualizarEtapa}></Etapa3>
                 break 
         }
 
@@ -38,7 +40,7 @@ export default function Autocadastro() {
                 &nbsp;&nbsp;
                 Auto Cadastro
             </nav>
-            <main className='w-full' style={{height: "calc(100% - 6vw)"}}> 
+            <main className='w-full overflow-auto' style={{height: "calc(100% - 6vw)"}}> 
                 <aside className='h-[12%] w-full flex items-center justify-center pt-7'>
                     <Steps etapa={etapa}></Steps>
                 </aside>

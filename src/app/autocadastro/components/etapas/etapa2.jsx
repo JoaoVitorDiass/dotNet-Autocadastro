@@ -19,31 +19,81 @@ export default function Etapa2({etapa, atualizarEtapa}) {
         erro: false
     });
 
-
     const handleNomeCompleto = (event) => {
-        setStateNomeCompleto(event.target.value)
+        setStateNomeCompleto({
+            ...stateNomeCompleto,
+            value: event.target.value
+        })
     }
 
     const handleDtnasc = (event) => {
-        setStateDtnasc(event.target.value)
+        setStateDtnasc({
+            ...stateDtnasc,
+            value: event.target.value
+        })
     }
 
     const handleCelular = (event) => {
-        setStateCelular(event.target.value)
+        setStateCelular({
+            ...stateCelular,
+            value: event.target.value
+        })
     }
 
     const validaCampos = () => {
 
-        let flag = true
+        let flag = false
         
+        if( stateNomeCompleto.value == "" ||
+            stateDtnasc.value       == "" ||
+            stateCelular.value      == ""    ) {
+
+            flag = true
+        }
         
-        console.log(stateNomeCompleto.value)
+        setStateNomeCompleto({
+            ...stateNomeCompleto,
+            erro: stateNomeCompleto.value == ""
+        })
+        setStateDtnasc({
+            ...stateDtnasc,
+            erro: stateDtnasc.value == ""
+        })
+        setStateCelular({
+            ...stateCelular,
+            erro: stateCelular.value == ""
+        })
+
+        if(!flag) {
+            atualizarEtapa(etapa+1)
+        }
     }
+
+    useEffect(() => {
+        let phoneValue = stateCelular.value;
+    
+        // Remove caracteres não numéricos da string
+        phoneValue = phoneValue.replace(/\D/g, '');
+        
+        // Aplica a máscara
+        if (phoneValue.length <= 10) {
+            phoneValue = phoneValue.replace(/^(\d{2})(\d{1,5})/, '($1) $2');
+        } else {
+            phoneValue = phoneValue.replace(/^(\d{2})(\d{1,5})(\d{1,4}).*/, '($1) $2-$3');
+        }
+
+        // Atualiza o estado com o número formatado
+        setStateCelular({
+            ...stateCelular,
+            value: phoneValue
+        })
+    
+    }, [stateCelular.value]);
 
     return(
         <div className="w-2/3 m-auto border  rounded-lg shadow sm:p-6 md:p-8 bg-gray-800 border-gray-700">
             <form className="space-y-6">
-                <h5 class="text-xl font-medium text-white">Sign in to our platform</h5>
+                <h5 class="text-xl font-medium text-white">Dados de identificação</h5>
                 
                 <div>
                     <label for="nomeCompleto" class="block mb-2 text-sm font-medium text-white">
@@ -59,7 +109,13 @@ export default function Etapa2({etapa, atualizarEtapa}) {
                         value={stateNomeCompleto.value}
                         onInput={handleNomeCompleto}
                     ></input>
-                    <span id="erroNomeCompleto" className="text-xs text-red-500 p-2 hidden">Campo obrigatório!</span>
+                    <span 
+                        id="erroNomeCompleto"
+                        className="text-xs text-red-500 p-2"
+                        style={!stateNomeCompleto.erro ? {display: "none"}: null}
+                    >
+                        Este campo deve ser preenchido!
+                    </span>
                 </div>
                 
                 <div>
@@ -75,7 +131,13 @@ export default function Etapa2({etapa, atualizarEtapa}) {
                         value={stateDtnasc.value}
                         onInput={handleDtnasc}
                     ></input>
-                    <span id="erroDtnasc" className="text-xs text-red-500 p-2 hidden">Campo obrigatório!</span>
+                    <span
+                        id="erroDtnasc"
+                        className="text-xs text-red-500 p-2"
+                        style={!stateDtnasc.erro ? {display: "none"}: null}
+                    >
+                        Este campo deve ser preenchido!
+                    </span>
                 </div>
 
                 <div>
@@ -92,7 +154,13 @@ export default function Etapa2({etapa, atualizarEtapa}) {
                         value={stateCelular.value}
                         onInput={handleCelular}
                     ></input>
-                    <span id="erroCelular" className="text-xs text-red-500 p-2 hidden">Campo obrigatório!</span>
+                    <span
+                        id="erroCelular"
+                        className="text-xs text-red-500 p-2"
+                        style={!stateCelular.erro ? {display: "none"}: null}
+                    >
+                        Este campo deve ser preenchido!
+                    </span>
                 </div>
 
                 <div className="text-sm text-white">
