@@ -40,7 +40,8 @@ export default function Etapa3({etapa, atualizarEtapa}) {
             erro: stateCep.value == ""
         })
 
-        if(stateCep.erro) {
+        
+        if(!stateCep.erro) {
             setStateModal(true)
         }
     }

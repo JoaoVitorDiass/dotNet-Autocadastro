@@ -7,7 +7,7 @@ import Etapa3 from "./components/etapas/etapa3"
 
 export default function Autocadastro() {
 
-    const [etapa, setEtapa] = useState(3)
+    const [etapa, setEtapa] = useState(1)
 
     const atualizarEtapa = (novoValor) => {
         setEtapa(novoValor);
